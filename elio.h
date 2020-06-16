@@ -70,19 +70,19 @@ void send_command(uint8_t cmd, const void* data, uint8_t len)
 }
 
 
-void decideToUseSensor( byte ultra, byte line1, byte line2)
+void decideToUseSensor( String ultra, String line1, String line2)
 {
   byte buffer[1];
   memset(buffer, 0x00, sizeof(buffer));
   byte mask = 0;
 
-  if (ultra == 1)
+  if (ultra == "ON")
       mask |= sensor_sonic;
   
-  if (line1 == 1)
+  if (line1 == "ON")
       mask |= sensor_line1;
 
-  if (line1 == 1)
+  if (line1 == "ON")
       mask |= sensor_line2;
   
   buffer[0] =mask;
