@@ -5,14 +5,14 @@
 #define ESC 0x23
 #define DLE 0x40
 
-#define DEFAULT_CRC	0xff
+#define DEFAULT_CRC    0xff
 
 Packet::Packet(on_packet_complete_handler_t completion_handler, packet_write_handler_t write_handler)
 {
     m_completion_handler       = completion_handler;
-	  m_write_handler = write_handler;
+      m_write_handler = write_handler;
 
-    reset();    
+    reset();
 }
 
 Packet::~Packet()
@@ -23,8 +23,8 @@ Packet::~Packet()
 void Packet::reset()
 {
   m_pos   = 0;
-	m_state = PS_STX;
-	m_crc   = DEFAULT_CRC;
+    m_state = PS_STX;
+    m_crc   = DEFAULT_CRC;
 }
 
 void Packet::add_data(uint8_t ch)
@@ -35,15 +35,15 @@ void Packet::add_data(uint8_t ch)
         return;
     }
 
-    m_crc ^= ch;					// update crc
-    m_buffer[m_pos++] = ch;			// add ch to buffer
+    m_crc ^= ch;                    // update crc
+    m_buffer[m_pos++] = ch;            // add ch to buffer
 }
 
 void Packet::add(uint8_t ch)
 {
     if (ch == STX)
     {
-    	reset();
+        reset();
     }
     
     switch (m_state)
@@ -54,16 +54,16 @@ void Packet::add(uint8_t ch)
         case PS_DATA:
             if (ch == ETX)
             {
-        				m_state = PS_STX;
-				
+                        m_state = PS_STX;
+                
                 if (m_pos >= 2 && m_crc == 0)
-      				  {
-        					m_pos--; 
+                        {
+                            m_pos--;
                  
-        					if (m_completion_handler) 
-        						m_completion_handler(m_buffer, m_pos);
-        					return;
-        				}
+                            if (m_completion_handler)
+                                m_completion_handler(m_buffer, m_pos);
+                            return;
+                        }
             }
             else if (ch == ESC)
             {
@@ -100,34 +100,34 @@ void Packet::add(uint8_t ch)
 
 void Packet::write_byte(uint8_t ch)
 {
-	if (ch <= ETX) 
-	{
-		m_write_handler(ESC);
-		ch = ch ^ DLE;
-	}
-	else if (ch == ESC)
-	{
-		m_write_handler(ESC);
-	}
-	m_write_handler(ch);
+    if (ch <= ETX)
+    {
+        m_write_handler(ESC);
+        ch = ch ^ DLE;
+    }
+    else if (ch == ESC)
+    {
+        m_write_handler(ESC);
+    }
+    m_write_handler(ch);
 }
 
 void Packet::send_packet(uint8_t* buf, uint16_t len)
 {
-	if (m_write_handler == NULL)
-		return;
+    if (m_write_handler == NULL)
+        return;
 
-	m_write_handler(STX);
+    m_write_handler(STX);
 
-	uint8_t crc = DEFAULT_CRC, ch;
-	while (len-- != 0)
-	{
-		ch = *buf++;
-		write_byte(ch);
-		crc ^= ch;
-	}
-	//write_byte(packet, crc);
+    uint8_t crc = DEFAULT_CRC, ch;
+    while (len-- != 0)
+    {
+        ch = *buf++;
+        write_byte(ch);
+        crc ^= ch;
+    }
+    //write_byte(packet, crc);
     write_byte(crc);
 
-	m_write_handler(ETX);
+    m_write_handler(ETX);
 }
