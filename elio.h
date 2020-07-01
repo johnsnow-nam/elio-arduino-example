@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 #include "packet.h"
 
 
@@ -50,7 +52,7 @@ int8_t  g_dc1= 0, g_dc2= 0, g_sv1= 0, g_sv2 = 0,
       g_v3= 0, g_v5= 0, g_io1= 0, g_io2= 0, g_io3= 0, g_io4= 0,
       g_line1= 0, g_line2 = 0 ;
 
-int16_t   g_sonic= 0;
+int16_t   g_sonic= 9999;
 
 void on_packet_complete_handler(uint8_t* buf, int len);
 void packet_write_handler(uint8_t ch);
@@ -82,7 +84,7 @@ void decideToUseSensor( String ultra, String line1, String line2)
   if (line1 == "ON")
       mask |= sensor_line1;
 
-  if (line1 == "ON")
+  if (line2 == "ON")
       mask |= sensor_line2;
   
   buffer[0] =mask;
@@ -247,6 +249,18 @@ int getSonic() {
   return g_sonic;
 }
 
+void assembleData() {
+  char buffer[100];
+
+    if(Serial.available()){
+        byte recv_len = Serial.readBytes(buffer, sizeof(buffer));
+        for (int i=0; i< recv_len; i++) {
+          packet.add(buffer[i]);
+     
+        }
+    }
+  
+}
 void on_packet_complete_handler(uint8_t* data, int len) {
 
       char szMsg[256];
