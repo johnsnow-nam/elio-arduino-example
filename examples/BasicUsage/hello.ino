@@ -8,13 +8,6 @@ void setup()
     Serial.println();
 }
 
-// void _delay(float seconds)
-// {
-//     long endTime = millis() + seconds * 1000;
-//     while (millis() < endTime)
-//         _loop();
-// }
-
 void loop()
 {
 
