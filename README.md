@@ -11,8 +11,6 @@ To install this library, use the Library Manager in the Arduino IDE or download 
 ```cpp
 #include <elio.h>
 
-Elio elio;
-
 void setup(){
           
       Serial.begin(115200);
