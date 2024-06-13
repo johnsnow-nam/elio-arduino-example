@@ -33,6 +33,4 @@ void loop(){
 License
 This library is licensed under MIT.
 
-#include <Arduino.h>
-#include <elio.h>
 
