@@ -1,5 +1,6 @@
 {
     "port": "/dev/tty.usbserial-142440",
     "board": "arduino:avr:uno",
-    "programmer": "avrispmkii"
+    "programmer": "avrispmkii",
+    "sketch": "examples/lines/lines.ino"
 }
