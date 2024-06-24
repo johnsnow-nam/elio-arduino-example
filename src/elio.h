@@ -48,7 +48,7 @@ extern int8_t g_dc1 = 0, g_dc2 = 0, g_sv1 = 0, g_sv2 = 0,
               g_v3 = 0, g_v5 = 0, g_io1 = 0, g_io2 = 0, g_io3 = 0, g_io4 = 0,
               g_line1 = 0, g_line2 = 0;
 
-int16_t g_sonic = 9999;
+int8_t g_sonic = 9999;
 
 void on_packet_complete_handler(uint8_t *buf, int len);
 void packet_write_handler(uint8_t ch);
