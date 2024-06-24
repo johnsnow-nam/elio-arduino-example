@@ -19,9 +19,11 @@ void loop()
     if (sensorValue > 500)
     {
         sendIO("IO1", 100);
+        sendIO("IO2", 0);
     }
     else
     {
+        sendIO("IO2", 100);
         sendIO("IO1", 0);
     }
 
