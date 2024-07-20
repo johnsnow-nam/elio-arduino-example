@@ -298,8 +298,8 @@ void on_packet_complete_handler(uint8_t *data, int len)
 
     g_sonic = status_packet->sonic_cm;
 
-    g_line1 = status_packet->line1 == 0 ? 1 : 0;
-    g_line2 = status_packet->line2 == 0 ? 1 : 0;
+    g_line1 = status_packet->line1;
+    g_line2 = status_packet->line2;
 
     sprintf(szMsg, "(%d,%d) [%d,%d]  {%d,%d, %d,%d,%d,%d} --> %d \n", g_dc1, g_dc2, g_sv1, g_sv2, g_io1, g_io2, g_io3, g_io4, g_v3, g_v5, status_packet->sensor_mask);
     Serial.println(szMsg);
