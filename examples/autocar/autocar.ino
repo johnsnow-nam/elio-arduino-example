@@ -10,7 +10,7 @@ void setup()
 
 void loop()
 {
-
+    // rotate();
     assembleData();
     int leftSensorValue = getLine1();
     int rightSensorValue = getLine2();
@@ -35,10 +35,23 @@ void loop()
         // 둘 다 라인을 감지하지 않음 (멈춤)
         stop();
     }
-    // 30밀리초 대기
-    // delay(30);
 }
 
+void rotate()
+{
+    int dc1, dc2;
+    dc1 = g_dc1;
+    dc2 = g_dc2;
+
+    sendDCS(0, 0);
+    sendServo("SV1", -30);
+    delay(300);
+    sendServo("SV1", 0);
+    delay(300);
+    sendServo("SV1", 30);
+    delay(300);
+    sendDCS(dc1, dc2);
+}
 void forward()
 {
     sendDCS(30, -30);
