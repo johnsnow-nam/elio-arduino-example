@@ -258,7 +258,7 @@ int getSonic()
 
 void assembleData()
 {
-    char buffer[100];
+    char buffer[64];
 
     if (Serial.available())
     {
@@ -272,7 +272,7 @@ void assembleData()
 
 void on_packet_complete_handler(uint8_t *data, int len)
 {
-    char szMsg[256];
+    char szMsg[64];
     memset(szMsg, 0x00, sizeof(szMsg));
 
     command_t *command = (command_t *)data;

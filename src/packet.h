@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-#define MAX_PACKET_LEN 1024
+#define MAX_PACKET_LEN 512
 
 #include <inttypes.h>
 

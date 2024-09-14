@@ -1,29 +1,23 @@
 #include <SoftwareSerial.h>
-#include <elio.h>
 
-SoftwareSerial BTSerial(2, 3);
+SoftwareSerial BTSerial(10, 11); // bluetooth module Tx:Digital 10 Rx:Digital 11
 
 void setup()
 {
-  Serial.begin(9600);
-  Serial.println("Enter AT commands:");
-  
-  // Bluetooth 시리얼 설정
-//  BTSerial.begin(9600);  // HC-05 모듈 AT 모드 기본 통신 속도
 
+  Serial.begin(115200);
+  BTSerial.println("AT+BAUD8");
+  BTSerial.begin(9600);
 }
 
 void loop()
-{
-  // Bluetooth로부터 데이터 수신
+{    
+   // Serial.write("0");
   if (BTSerial.available()) {
     Serial.write(BTSerial.read());
-   sendIO("IO1", 100);
   }
-  
-  // 시리얼 모니터로부터 데이터 전송
   if (Serial.available()) {
-    BTSerial.write(Serial.read());
-    sendIO("IO2", 100);
+     Serial.write("2");
+      BTSerial.write(Serial.read());
   }
 }

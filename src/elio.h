@@ -9,7 +9,7 @@ typedef struct
 {
     byte cmd;
     byte len;
-    byte data[256];
+    byte data[64];
 } command_t;
 #pragma pack()
 

@@ -7,7 +7,7 @@ typedef struct
 {
   byte cmd;
   byte len;
-  byte data[256];
+  byte data[128];
 } command_t;
 #pragma pack()
 
@@ -320,7 +320,7 @@ void assembleData()
 void on_packet_complete_handler(uint8_t *data, int len)
 {
 
-  char szMsg[256];
+  char szMsg[128];
   memset(szMsg, 0x00, sizeof(szMsg));
 
   command_t *command = (command_t *)data;
