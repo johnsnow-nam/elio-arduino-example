@@ -15,6 +15,9 @@ void loop()
     int leftSensorValue = getLine1();
     int rightSensorValue = getLine2();
 
+    //sendServo("SV1", -30);
+    //delay(10);
+    
     // 선 추적 알고리즘
     if (leftSensorValue == 1 && rightSensorValue == 1)
     {
@@ -35,6 +38,14 @@ void loop()
         // 둘 다 라인을 감지하지 않음 (멈춤)
         stop();
     }
+
+    //sendServo("SV1", 0);
+    //delay(10);
+
+    //sendServo("SV1", 30);
+    //1 ㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅌㅋㅋㅋㅋdelay(10);
+    delay(10);
+
 }
 
 void rotate()
@@ -51,29 +62,30 @@ void rotate()
     sendServo("SV1", 30);
     delay(300);
     sendDCS(dc1, dc2);
-}
+}/
+
 void forward()
 {
-    sendDCS(30, -30);
+    sendDCS(32, -32);
     // delay(30);
 }
 
 void back()
 {
-    sendDCS(-30, 30);
+    sendDCS(-32, 32);
     // delay(500);
 }
 
 void left()
 {
-    sendDCS(0, -30);
-    // delay(500);
+    sendDCS(-32, -32);
+    //delay(200);
 }
 
 void right()
 {
-    sendDCS(30, 0);
-    // delay(500);
+    sendDCS(32, 32);
+    //ㅏ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             delay(20);
 }
 
 void stop()

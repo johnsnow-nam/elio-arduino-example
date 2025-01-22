@@ -13,6 +13,14 @@ typedef struct
 } command_t;
 #pragma pack()
 
+
+#pragma pack(1)
+typedef struct
+{
+   int16_t  t, h, m;
+} app_uart_sensor2_t;
+#pragma pack()
+
 // 센서 마스크
 typedef enum
 {
@@ -46,6 +54,7 @@ typedef struct
 
 extern int8_t g_dc1, g_dc2, g_sv1, g_sv2, g_v3, g_v5, g_io1, g_io2, g_io3, g_io4, g_line1, g_line2;
 extern int8_t g_sonic;
+extern int16_t g_temperature, g_humidity, g_water;
 // extern Packet packet(on_packet_complete_handler, packet_write_handler);
 
 void on_packet_complete_handler(uint8_t *buf, int len);

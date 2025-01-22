@@ -5,6 +5,8 @@ int8_t g_dc1 = 0, g_dc2 = 0, g_sv1 = 0, g_sv2 = 0,
        g_line1 = 0, g_line2 = 0;
 
 int8_t g_sonic = 9999;
+int16_t g_temperature=0, g_humidity=0, g_water=0;
+
 Packet packet(on_packet_complete_handler, packet_write_handler);
 
 void send_command(uint8_t cmd, const void *data, uint8_t len)
@@ -276,35 +278,46 @@ void on_packet_complete_handler(uint8_t *data, int len)
     memset(szMsg, 0x00, sizeof(szMsg));
 
     command_t *command = (command_t *)data;
-    app_uart_status_t *status_packet = (app_uart_status_t *)(command->data);
 
-    Serial.println("-------------------------------------------------------");
-    sprintf(szMsg, "(cmd=%02x, len=%d \n", command->cmd, command->len);
-    Serial.println(szMsg);
+    if (command->cmd == cmd_uart_status) {
+        app_uart_status_t *status_packet = (app_uart_status_t *)(command->data);
 
-    g_dc1 = status_packet->dc1;
-    g_dc2 = status_packet->dc2;
+        // Serial.println("-------------------------------------------------------");
+        // sprintf(szMsg, "(cmd=%02x, len=%d) \n", command->cmd, command->len);
+        // Serial.println(szMsg);
 
-    g_sv1 = status_packet->servo1;
-    g_sv2 = status_packet->servo2;
+        g_dc1 = status_packet->dc1;
+        g_dc2 = status_packet->dc2;
 
-    g_v3 = status_packet->v3;
-    g_v5 = status_packet->v5;
+        g_sv1 = status_packet->servo1;
+        g_sv2 = status_packet->servo2;
 
-    g_io1 = status_packet->io[0];
-    g_io2 = status_packet->io[1];
-    g_io3 = status_packet->io[2];
-    g_io4 = status_packet->io[3];
+        g_v3 = status_packet->v3;
+        g_v5 = status_packet->v5;
 
-    g_sonic = status_packet->sonic_cm;
+        g_io1 = status_packet->io[0];
+        g_io2 = status_packet->io[1];
+        g_io3 = status_packet->io[2];
+        g_io4 = status_packet->io[3];
 
-    g_line1 = status_packet->line1 == 0 ? 1 : 0;
-    g_line2 = status_packet->line2 == 0 ? 1 : 0;
+        g_sonic = status_packet->sonic_cm;
 
-    sprintf(szMsg, "(%d,%d) [%d,%d]  {%d,%d, %d,%d,%d,%d} --> %d \n", g_dc1, g_dc2, g_sv1, g_sv2, g_io1, g_io2, g_io3, g_io4, g_v3, g_v5, status_packet->sensor_mask);
-    Serial.println(szMsg);
-    sprintf(szMsg, "[%d,%d,%d]  ", g_sonic, g_line1, g_line2);
-    Serial.println(szMsg);
+        g_line1 = status_packet->line1 == 0 ? 1 : 0;
+        g_line2 = status_packet->line2 == 0 ? 1 : 0;
+
+        // sprintf(szMsg, "(%d,%d) [%d,%d]  {%d,%d, %d,%d,%d,%d} --> %d \n", g_dc1, g_dc2, g_sv1, g_sv2, g_io1, g_io2, g_io3, g_io4, g_v3, g_v5, status_packet->sensor_mask);
+        // Serial.println(szMsg);
+        // sprintf(szMsg, "[%d,%d,%d]  ", g_sonic, g_line1, g_line2);
+        // Serial.println(szMsg);
+    
+    }else if (command->cmd == 0xb2) {
+        app_uart_sensor2_t *sensor_packet = (app_uart_sensor2_t *)(command->data);
+        g_temperature = sensor_packet->t;
+        g_humidity = sensor_packet->h;
+        g_water = sensor_packet->m;
+        // sprintf(szMsg, "(cmd=%02x, len=%d) [%d,%d,%d] \n", command->cmd, command->len, g_temperature, g_humidity, g_water);
+        // Serial.println(szMsg);
+    }
 }
 
 void packet_write_handler(uint8_t ch)
